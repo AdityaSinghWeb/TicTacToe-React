@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-function PlayerInfo({ initialName, playerSymbol }) {
+function PlayerInfo({ initialName, playerSymbol, isActive }) {
   const [editing, setEditing] = useState(false);
   const [changeName, setChangeName] = useState(initialName);
 
@@ -20,14 +20,16 @@ function PlayerInfo({ initialName, playerSymbol }) {
       <input type="text" required value={changeName} onChange={handleChange} />
     );
   }
-
+  console.log({ playerSymbol }, { isActive });
   return (
-    <li>
+    <li className={isActive ? "active" : undefined}>
       <span className="player">
         {name}
         <span className="player-symbol">{playerSymbol}</span>
       </span>
-      <button onClick={handleClick}>{editing ? "Save" : "Edit"}</button>
+      <button className={isActive ? "active" : undefined} onClick={handleClick}>
+        {editing ? "Save" : "Edit"}
+      </button>
     </li>
   );
 }
