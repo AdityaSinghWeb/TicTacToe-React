@@ -20,7 +20,7 @@ function PlayerInfo({ initialName, playerSymbol, isActive }) {
       <input type="text" required value={changeName} onChange={handleChange} />
     );
   }
-  console.log({ playerSymbol }, { isActive });
+
   return (
     <li className={isActive ? "active" : undefined}>
       <span className="player">
