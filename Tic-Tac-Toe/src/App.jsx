@@ -22,8 +22,12 @@ function getActivePlayer(gameTurn) {
 
 function App() {
   const [gameTurn, setGameTurn] = useState([]);
+  const [playerName, setPlayerName] = useState({
+    X: "Player 1",
+    O: "Player 2",
+  });
   // const [active, setActive] = useState("X");
-  let board = [...initialGameBoard.map(innerArr=>[...innerArr])];
+  let board = [...initialGameBoard.map((innerArr) => [...innerArr])];
   for (let turn of gameTurn) {
     const { square, player } = turn;
     const { row, col } = square;
@@ -42,7 +46,7 @@ function App() {
       firstCombination === secondCombination &&
       firstCombination === thirdCombination
     ) {
-      winner = firstCombination;
+      winner = playerName[firstCombination];
     }
   }
 
@@ -67,7 +71,15 @@ function App() {
     setGameTurn([]);
   }
 
-  
+  function handleWinnerName(playerSymbol, newName) {
+    setPlayerName((prevName) => {
+      return {
+        ...prevName,
+        [playerSymbol]: newName,
+      };
+    });
+  }
+
   return (
     <main>
       <div id="game-container">
@@ -76,14 +88,16 @@ function App() {
             initialName="Player 1"
             playerSymbol="X"
             isActive={active === "X"}
+            winnerPlayer={handleWinnerName}
           />
           <PlayerInfo
             initialName="Player 2"
             playerSymbol="O"
             isActive={active === "O"}
+            winnerPlayer={handleWinnerName}
           />
         </ol>
-        {(winner || draw) && <Over winner={winner} onReset={handleReset}/>}
+        {(winner || draw) && <Over winner={winner} onReset={handleReset} />}
         <GameBoard onSelect={handleSelect} turns={board} />
       </div>
       <Log turns={gameTurn} />
